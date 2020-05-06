@@ -1041,7 +1041,10 @@ pheatmap = function(mat, color = colorRampPalette(rev(brewer.pal(n = 7, name = "
         annotation_row = annotation_row[rownames(mat), , drop = F]
     }
     
-    annotation = c(annotation_row, annotation_col)
+    annotation<-list()
+    for(name in unique(c(names(annotation_row),names(annotation_col)))){
+        annotation[[name]]<-c(annotation_row[[name]],annotation_col[[name]])
+    }
     annotation = annotation[unlist(lapply(annotation, function(x) !is.na2(x)))]
     if(length(annotation) != 0){
         annotation_colors = generate_annotation_colours(annotation, annotation_colors, drop = drop_levels)
