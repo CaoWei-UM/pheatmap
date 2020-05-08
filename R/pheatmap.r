@@ -1040,10 +1040,13 @@ pheatmap = function(mat, color = colorRampPalette(rev(brewer.pal(n = 7, name = "
     if(!is.na2(annotation_row)){
         annotation_row = annotation_row[rownames(mat), , drop = F]
     }
-    
-    annotation<-list()
-    for(name in unique(c(names(annotation_row),names(annotation_col)))){
-        annotation[[name]]<-c(annotation_row[[name]],annotation_col[[name]])
+    if(is.na2(annotation_row)|is.na2(annotation_col)){
+        annotation<-c(annotation_row,annotation_col)
+    }else{
+        annotation<-list()
+        for(name in unique(c(names(annotation_row),names(annotation_col)))){
+            annotation[[name]]<-c(annotation_row[[name]],annotation_col[[name]])
+        }
     }
     annotation = annotation[unlist(lapply(annotation, function(x) !is.na2(x)))]
     if(length(annotation) != 0){
